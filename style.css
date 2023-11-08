@@ -60,3 +60,14 @@ body{
         background-position-x:-252px ;
     }
 }
+
+
+.cactus{
+    width: 45px;
+    height: 95px;
+    position: absolute;
+    bottom: 16px;
+    left: 600px;
+    z-index: 1;
+    background:url(img/cactus1.png) no-repeat;
+}
