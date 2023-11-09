@@ -21,6 +21,33 @@ body{
    
 }
 
+.game-over{
+    color:red;
+   display: none;
+   font-family: monospace;
+   font-size: 40px;
+   position: absolute;
+   right: calc(47% - 50px);
+   top: calc(15% - 50px);
+   z-index: 2;
+}
+
+.score{
+    width: 100px;
+    height: 30px;
+
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    z-index: 10;
+
+    color:red;
+    font-family: Verdana;
+    font-size: 30px;
+
+    text-align: right;
+}
+
 .dino{
     width: 81px;
     height: 84px;
