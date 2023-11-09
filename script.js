@@ -42,6 +42,7 @@ var contenedor;
 var dino;
 var textScore;
 var suelo;
+var gameOver;
 
 /////////////////////////////////////////////////
 
@@ -56,15 +57,21 @@ function Start() {
   dino = document.querySelector(".dino");
   suelo = document.querySelector(".suelo");
   textScore = document.querySelector(".score");
+gameOver= document.querySelector('.game-over')
 
   document.addEventListener("keydown", HandleKeydown);
 }
 
 function Update() {
+
+    if(parado)return;
+
     MoverSuelo();
     MoverDinosaurio();
     DecidirCrearObstaculos();
     MoverObstaculos();
+    DetectarColision();
+    GanarPuntos()
     velY -= gravedad * deltaTime;
   }
 
@@ -147,5 +154,53 @@ function MoverObstaculos() {
     }
 }
 
+function GanarPuntos(){
+    score++;
+    textScore.innerText = score;
+   /*if(score == 5){
+        gameVel = 1.5;
+        contenedor.classList.add("mediodia");
+    }else if(score == 10) {
+        gameVel = 2;
+        contenedor.classList.add("tarde");
+    } else if(score == 20) {
+        gameVel = 3;
+        contenedor.classList.add("noche");
+    }
+    suelo.style.animationDuration = (3/gameVel)+"s";*/
+}
 
+function DetectarColision(){
+    for(var i=0;i<obstaculos.length;i++){
+        if(obstaculos[i].posX>dinoPosX+dino.clientWidth){
+            break;
+        }else{
+            if(IsCollision(dino, obstaculos[i], 10, 30, 15, 20)) {
+                GameOver()
+            }
+        }
+    }
+}
 
+function GameOver(){
+    Estrellarse();
+    gameOver.style.display='block';
+}
+
+function Estrellarse(){
+    dino.classList.remove('dino-corriendo');
+    dino.classList.add('dino-chocado')
+    parado = true;
+}
+
+function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft) {
+    var aRect = a.getBoundingClientRect();
+    var bRect = b.getBoundingClientRect();
+
+    return !(
+        ((aRect.top + aRect.height - paddingBottom) < (bRect.top)) ||
+        (aRect.top + paddingTop > (bRect.top + bRect.height)) ||
+        ((aRect.left + aRect.width - paddingRight) < bRect.left) ||
+        (aRect.left + paddingLeft > (bRect.left + bRect.width))
+    );
+}
